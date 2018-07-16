@@ -10,7 +10,8 @@ import android.provider.BaseColumns;
 
 public final class BookContract {
 
-    private BookContract() {}
+    private BookContract() {
+    }
 
     /**
      * The "Content authority" is a name for the entire content provider, similar to the
@@ -39,7 +40,7 @@ public final class BookContract {
      * Each entry in the table represents a single book.
      */
 
-    public static abstract class PetsList implements BaseColumns {
+    public static abstract class BookDatabaseTitles implements BaseColumns {
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of pets.
@@ -54,19 +55,20 @@ public final class BookContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_BOOKS;
 
 
-        /** The content URI to access the pet data in the provider */
+        /**
+         * The content URI to access the pet data in the provider
+         */
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
 
-        public static abstract class BookDatabaseTitles implements BaseColumns {
-        public static final String TABLE_NAME = "books";
-        public static final String _ID = BaseColumns._ID;
-        public static final String COLUMN_BOOK_TITLE = "TitleBook";
-        public static final String COLUMN_BOOK_AUTHOR = "AuthorBook";
-        public static final String COLUMN_BOOK_PRICE = "Price";
-        public static final String COLUMN_BOOK_QUANTITY = "Quantity";
-        public static final String COLUMN_BOOK_SUPPLIER_NAME = "SupplierName";
-        public static final String COLUMN_BOOK_SUPPLIER_PHONE = "SupplierPhoneNumber";
+            public static final String TABLE_NAME = "books";
+            public static final String _ID = BaseColumns._ID;
+            public static final String COLUMN_BOOK_TITLE = "TitleBook";
+            public static final String COLUMN_BOOK_AUTHOR = "AuthorBook";
+            public static final String COLUMN_BOOK_PRICE = "Price";
+            public static final String COLUMN_BOOK_QUANTITY = "Quantity";
+            public static final String COLUMN_BOOK_SUPPLIER_NAME = "SupplierName";
+            public static final String COLUMN_BOOK_SUPPLIER_PHONE = "SupplierPhoneNumber";
 
     }
 }

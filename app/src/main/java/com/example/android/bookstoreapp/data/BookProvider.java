@@ -1,5 +1,6 @@
 package com.example.android.bookstoreapp.data;
 
+import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -12,25 +13,25 @@ import android.util.Log;
  * Created by egi-megi on 16.07.18.
  */
 
-public class BookProvider {
+public class BookProvider extends ContentProvider{
 
     /**
      * Tag for the log messages
      */
-    public static final String LOG_TAG = PetProvider.class.getSimpleName();
+    public static final String LOG_TAG = BookProvider.class.getSimpleName();
 
-    private PetDbHelper mPetDbHelper;
+    private BookDbHelper mBookDbHelper;
 
 
     /**
      * URI matcher code for the content URI for the pets table
      */
-    private static final int PETS = 100;
+    private static final int BOOKS = 100;
 
     /**
      * URI matcher code for the content URI for a single pet in the pets table
      */
-    private static final int PET_ID = 101;
+    private static final int BOOK_ID = 101;
 
     /**
      * UriMatcher object to match a content URI to a corresponding code.
@@ -45,8 +46,8 @@ public class BookProvider {
         // should recognize. All paths added to the UriMatcher have a corresponding code to return
         // when a match is found.
 
-        sUriMatcher.addURI("com.example.android.pets", "pets", 100);
-        sUriMatcher.addURI("com.example.android.pets", "pets/#", 101);
+        sUriMatcher.addURI("com.example.android.bookstoreapp", "books", 100);
+        sUriMatcher.addURI("com.example.android.bookstoreapp", "books/#", 101);
     }
 
     /**
@@ -54,7 +55,7 @@ public class BookProvider {
      */
     @Override
     public boolean onCreate() {
-        mPetDbHelper = new PetDbHelper(getContext());
+        mBookDbHelper = new BookDbHelper(getContext());
         // Make sure the variable is a global variable, so it can be referenced from other
         // ContentProvider methods.
         return true;
@@ -67,7 +68,7 @@ public class BookProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         // Get readable database
-        SQLiteDatabase database = mPetDbHelper.getReadableDatabase();
+        SQLiteDatabase database = mBookDbHelper.getReadableDatabase();
 
         // This cursor will hold the result of the query
         Cursor cursor;
@@ -75,15 +76,15 @@ public class BookProvider {
         // Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
-                // For the PETS code, query the pets table directly with the given
+            case BOOKS:
+                // For the BOOKS code, query the pets table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
                 // could contain multiple rows of the pets table.
-                cursor = database.query(PetContract.PetsList.TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(BookContract.BookDatabaseTitles.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
-            case PET_ID:
-                // For the PET_ID code, extract out the ID from the URI.
+            case BOOK_ID:
+                // For the BOOK_ID code, extract out the ID from the URI.
                 // For an example URI such as "content://com.example.android.pets/pets/3",
                 // the selection will be "_id=?" and the selection argument will be a
                 // String array containing the actual ID of 3 in this case.
@@ -91,12 +92,12 @@ public class BookProvider {
                 // For every "?" in the selection, we need to have an element in the selection
                 // arguments that will fill in the "?". Since we have 1 question mark in the
                 // selection, we have 1 String in the selection arguments' String array.
-                selection = PetContract.PetsList._ID + "=?";
+                selection = BookContract.BookDatabaseTitles._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 // This will perform a query on the pets table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
-                cursor = database.query(PetContract.PetsList.TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(BookContract.BookDatabaseTitles.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             default:
@@ -115,7 +116,7 @@ public class BookProvider {
     public Uri insert(Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
+            case BOOKS:
                 return insertPet(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
@@ -129,26 +130,23 @@ public class BookProvider {
     private Uri insertPet(Uri uri, ContentValues values) {
 
         // Check that the name is not null
-        String name = values.getAsString(PetContract.PetsList.COLUMN_NAME);
+        String name = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
         if (name == null) {
             throw new IllegalArgumentException("Pet requires a name");
         }
 
-        Integer gender = values.getAsInteger(PetContract.PetsList.COLUMN_GENDER);
-        if (gender == null || !PetContract.PetsList.isValidGender(gender)) {
-            throw new IllegalArgumentException("Pet requires valid gender");
-        }
 
-        Integer weight = values.getAsInteger(PetContract.PetsList.COLUMN_WEIGHT);
+
+        Integer weight = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
         if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Weight of pet must be bigger than 0");
+            throw new IllegalArgumentException("Price of pet must be bigger than 0");
         }
 
         // Create and/or open a database to read from it
-        SQLiteDatabase database = mPetDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mBookDbHelper.getWritableDatabase();
 
         // Insert the new pet with the given values
-        long id = database.insert(PetContract.PetsList.TABLE_NAME, null, values);
+        long id = database.insert(BookContract.BookDatabaseTitles.TABLE_NAME, null, values);
 
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
@@ -170,13 +168,13 @@ public class BookProvider {
                       String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
+            case BOOKS:
                 return updatePet(uri, contentValues, selection, selectionArgs);
-            case PET_ID:
-                // For the PET_ID code, extract out the ID from the URI,
+            case BOOK_ID:
+                // For the BOOK_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
-                selection = PetContract.PetsList._ID + "=?";
+                selection = BookContract.BookDatabaseTitles._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updatePet(uri, contentValues, selection, selectionArgs);
             default:
@@ -191,29 +189,25 @@ public class BookProvider {
      */
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        if (values.containsKey(PetContract.PetsList.COLUMN_NAME)) {
-            String name = values.getAsString(PetContract.PetsList.COLUMN_NAME);
-            if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+        if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE)) {
+            String title = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
+            if (title == null) {
+                throw new IllegalArgumentException("Book requires a title");
             }
         }
 
-//        if (values.containsKey(PetContract.PetsList.COLUMN_BREED)) {
-//            String breed = values.getAsString(PetContract.PetsList.COLUMN_BREED);
-//        }
-
-        if (values.containsKey(PetContract.PetsList.COLUMN_GENDER)) {
-            Integer gender = values.getAsInteger(PetContract.PetsList.COLUMN_GENDER);
-            if (gender == null || !PetContract.PetsList.isValidGender(gender)) {
-                throw new IllegalArgumentException("Pet requires valid gender");
+        if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR)) {
+            String author = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR);
+            if (author == null) {
+                throw new IllegalArgumentException("Book requires a author");
             }
         }
 
 
-        if (values.containsKey(PetContract.PetsList.COLUMN_WEIGHT)) {
-            Integer weight = values.getAsInteger(PetContract.PetsList.COLUMN_WEIGHT);
+        if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE)) {
+            Integer weight = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
             if (weight != null && weight < 0) {
-                throw new IllegalArgumentException("Weight of pet must be bigger than 0");
+                throw new IllegalArgumentException("Price of pet must be bigger than 0");
             }
         }
 
@@ -225,10 +219,10 @@ public class BookProvider {
         }
 
         // Otherwise, get writeable database to update the data
-        SQLiteDatabase database = mPetDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mBookDbHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
-        int rowsUpdated = database.update(PetContract.PetsList.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = database.update(BookContract.BookDatabaseTitles.TABLE_NAME, values, selection, selectionArgs);
 
         // If 1 or more rows were updated, then notify all listeners that the data at the
         // given URI has changed
@@ -248,24 +242,24 @@ public class BookProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
         // Get writeable database
-        SQLiteDatabase database = mPetDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mBookDbHelper.getWritableDatabase();
 
         int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
+            case BOOKS:
                 // Delete all rows that match the selection and selection args
-                // For  case PETS:
-                rowsDeleted = database.delete(PetContract.PetsList.TABLE_NAME, selection, selectionArgs);
+                // For  case BOOKS:
+                rowsDeleted = database.delete(BookContract.BookDatabaseTitles.TABLE_NAME, selection, selectionArgs);
                 // Delete all rows that match the selection and selection args
                 break;
-            case PET_ID:
+            case BOOK_ID:
                 // Delete a single row given by the ID in the URI
-                selection = PetContract.PetsList._ID + "=?";
+                selection = BookContract.BookDatabaseTitles._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 getContext().getContentResolver().notifyChange(uri, null);
-                rowsDeleted = database.delete(PetContract.PetsList.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(BookContract.BookDatabaseTitles.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
@@ -287,10 +281,10 @@ public class BookProvider {
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
-                return PetContract.PetsList.CONTENT_LIST_TYPE;
-            case PET_ID:
-                return PetContract.PetsList.CONTENT_ITEM_TYPE;
+            case BOOKS:
+                return BookContract.BookDatabaseTitles.CONTENT_LIST_TYPE;
+            case BOOK_ID:
+                return BookContract.BookDatabaseTitles.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }

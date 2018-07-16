@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Book Store App</string>
+
+    <string name="default_author_unknown">Author unknown</string>
+</resources>

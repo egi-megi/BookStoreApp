@@ -24,12 +24,12 @@ public class BookProvider extends ContentProvider{
 
 
     /**
-     * URI matcher code for the content URI for the pets table
+     * URI matcher code for the content URI for the books table
      */
     private static final int BOOKS = 100;
 
     /**
-     * URI matcher code for the content URI for a single pet in the pets table
+     * URI matcher code for the content URI for a single book in the books table
      */
     private static final int BOOK_ID = 101;
 
@@ -117,7 +117,7 @@ public class BookProvider extends ContentProvider{
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                return insertPet(uri, contentValues);
+                return insertBook(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -127,19 +127,40 @@ public class BookProvider extends ContentProvider{
      * Insert a pet into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
-    private Uri insertPet(Uri uri, ContentValues values) {
+    private Uri insertBook(Uri uri, ContentValues values) {
 
-        // Check that the name is not null
-        String name = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
-        if (name == null) {
-            throw new IllegalArgumentException("Pet requires a name");
+        // Check that the title is not null
+        String title = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
+        if (title == null) {
+            throw new IllegalArgumentException("Book requires a title");
+        }
+
+        String author = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR);
+        if (author == null) {
+            throw new IllegalArgumentException("Book requires an author");
         }
 
 
 
-        Integer weight = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
-        if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Price of pet must be bigger than 0");
+        Integer price = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
+        if (price != null && price < 0) {
+            throw new IllegalArgumentException("Price of book must be bigger than 0");
+        }
+
+        Integer quantity = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Quantity of book must be bigger than 0");
+        }
+
+        // Check that the title is not null
+        String supplierName = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("Book requires a name of supplier");
+        }
+
+        String supplierPhoneNumber = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE);
+        if (supplierPhoneNumber == null) {
+            throw new IllegalArgumentException("Book requires a supplier's phone number");
         }
 
         // Create and/or open a database to read from it
@@ -169,14 +190,14 @@ public class BookProvider extends ContentProvider{
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             case BOOK_ID:
                 // For the BOOK_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = BookContract.BookDatabaseTitles._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateBook(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -187,7 +208,7 @@ public class BookProvider extends ContentProvider{
      * specified in the selection and selection arguments (which could be 0 or 1 or more pets).
      * Return the number of rows that were successfully updated.
      */
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE)) {
             String title = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
@@ -205,9 +226,24 @@ public class BookProvider extends ContentProvider{
 
 
         if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE)) {
-            Integer weight = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
-            if (weight != null && weight < 0) {
-                throw new IllegalArgumentException("Price of pet must be bigger than 0");
+            Integer price = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
+            if (price != null && price < 0) {
+                throw new IllegalArgumentException("Price of book must be bigger than 0");
+            }
+        }
+
+        // Check that the title is not null
+        if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME)) {
+            String supplierName = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME);
+            if (supplierName == null) {
+                throw new IllegalArgumentException("Book requires a name of supplier");
+            }
+        }
+
+        if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE)) {
+            String supplierPhoneNumber = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE);
+            if (supplierPhoneNumber == null) {
+                throw new IllegalArgumentException("Book requires a supplier's phone number");
             }
         }
 

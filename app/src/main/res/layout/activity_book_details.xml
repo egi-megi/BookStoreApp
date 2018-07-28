@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -9,16 +8,14 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
-<!-- Layout for the editor -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+--><!-- Layout for the editor -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_margin"
-    tools:context=".EditorActivity">
+    tools:context=".BookDetailsActivity">
 
     <!-- Title category -->
     <LinearLayout
@@ -28,14 +25,13 @@
 
         <!-- Label -->
         <TextView
-            android:text="Book's title"
-            style="@style/CategoryStyle" />
+            style="@style/CategoryStyle"
+            android:text="Book's title" />
 
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_book_title"
-                android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
+        <!-- Name field -->
+        <TextView
+            android:id="@+id/text_view_book_title"
+            style="@style/EditorFieldStyle" />
 
     </LinearLayout>
 
@@ -47,13 +43,12 @@
 
         <!-- Label -->
         <TextView
-            android:text="Book's author"
-            style="@style/CategoryStyle" />
+            style="@style/CategoryStyle"
+            android:text="Book's author" />
 
         <!-- Name field -->
-        <EditText
-            android:id="@+id/edit_book_author"
-            android:inputType="textCapWords"
+        <TextView
+            android:id="@+id/text_view_book_author"
             style="@style/EditorFieldStyle" />
 
     </LinearLayout>
@@ -67,27 +62,26 @@
 
         <!-- Label -->
         <TextView
-            android:text="Price"
-            style="@style/CategoryStyle" />
+            style="@style/CategoryStyle"
+            android:text="Price" />
 
         <!-- Input fields -->
         <RelativeLayout
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
             android:paddingLeft="4dp">
 
             <!-- Weight field -->
-            <EditText
-                android:id="@+id/edit_book_price"
-                android:inputType="number"
+            <TextView
+                android:id="@+id/text_view_book_price"
                 style="@style/EditorFieldStyle" />
 
             <!-- Units for weight (kg) -->
             <TextView
                 android:id="@+id/label_price_units"
-                android:text="$"
-                style="@style/EditorUnitsStyle"/>
+                style="@style/EditorUnitsStyle"
+                android:text="$" />
         </RelativeLayout>
     </LinearLayout>
     <!-- Author category -->
@@ -98,14 +92,47 @@
 
         <!-- Label -->
         <TextView
-            android:text="Quantity"
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
+            android:paddingLeft="4dp"
+            android:text="Quantity" />
+
+        <Button
+            android:id="@+id/button_decrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
 
         <!-- Name field -->
-        <EditText
-            android:id="@+id/edit_book_quantity"
-            android:inputType="number"
+        <TextView
+            android:id="@+id/text_view_book_quantity"
+            style="@style/EditorFieldStyle"
+            android:layout_width="wrap_content"
+            android:text="999"/>
+
+
+
+        <Button
+            android:id="@+id/button_increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:paddingLeft="4dp"
+            android:text="Supplier Name" />
+
+        <!-- Name field -->
+        <TextView
+            android:id="@+id/text_view_supplier_name"
             style="@style/EditorFieldStyle" />
 
     </LinearLayout>
@@ -117,37 +144,20 @@
 
         <!-- Label -->
         <TextView
-            android:text="Supplier Name"
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
+            android:paddingLeft="4dp"
+            android:text="Supplier Phone Number" />
 
         <!-- Name field -->
-        <EditText
-            android:id="@+id/edit_supplier_name"
-            android:inputType="textCapWords"
-            style="@style/EditorFieldStyle" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
         <TextView
-            android:text="Supplier Phone Number"
-            style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
-
-        <!-- Name field -->
-        <EditText
-            android:id="@+id/edit_supplier_phone_number"
-            android:inputType="number|phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_supplier_phone_number"
+            android:autoLink="phone"
+            android:clickable="true"
             style="@style/EditorFieldStyle" />
 
     </LinearLayout>
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"
@@ -155,6 +165,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_pet" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_pet" />
 </LinearLayout>

@@ -13,33 +13,32 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract;
 
 /**
- * Created by egi-megi on 16.07.18.
+ * Created by egi-megi on 28.07.18.
  */
 
-public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class BookDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int EXISTING_BOOK_LOADER = 0;
 
     private Uri mCurrentBookUri;
 
-    private EditText mTitleEditText;
-    private EditText mAuthorEditText;
-    private EditText mPriceEditText;
-    private EditText mQuantityEditText;
-    private EditText mSupplierNameEditText;
-    private EditText mSupplierPhoneNumberEditText;
+    private TextView mTitleTextView;
+    private TextView mAuthorTextView;
+    private TextView mPriceTextView;
+    private TextView mQuantityTextView;
+    private TextView mSupplierNameTextView;
+    private TextView mSupplierPhoneNumberTextView;
 
 
     private boolean mBookHasChanged = false;
@@ -47,38 +46,37 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
+        setContentView(R.layout.activity_book_details);
 
         Intent intent = getIntent();
         mCurrentBookUri = intent.getData();
+        getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
 
-        if (mCurrentBookUri == null) {
-            setTitle(getString(R.string.editor_activity_title_new_book));
-            // Invalidate the options menu, so the "Delete" menu option can be hidden.
-            // (It doesn't make sense to delete a pet that hasn't been created yet.)
-            invalidateOptionsMenu();
-        } else {
-            setTitle(getString(R.string.editor_activity_title_edit_book));
+//        if (mCurrentBookUri == null) {
+//            setTitle(getString(R.string.editor_activity_title_new_book));
+//            // Invalidate the options menu, so the "Delete" menu option can be hidden.
+//            // (It doesn't make sense to delete a pet that hasn't been created yet.)
+//            invalidateOptionsMenu();
+//        } else {
+//            setTitle(getString(R.string.editor_activity_title_edit_book));
+//
+//
+//            // Initialize a loader to read the pet data from the database
+//            // and display the current values in the editor
+//            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
+//        }
 
-
-            // Initialize a loader to read the pet data from the database
-            // and display the current values in the editor
-            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
-        }
-        // Find all relevant views that we will need to read user input from
-        mTitleEditText = (EditText) findViewById(R.id.edit_book_title);
-        mAuthorEditText = (EditText) findViewById(R.id.edit_book_author);
-        mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
-        mQuantityEditText = (EditText) findViewById(R.id.edit_book_quantity);
-        mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
-        mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
-
-        mTitleEditText.setOnTouchListener(mTouchListener);
-        mAuthorEditText.setOnTouchListener(mTouchListener);
-        mPriceEditText.setOnTouchListener(mTouchListener);
-        mQuantityEditText.setOnTouchListener(mTouchListener);
-        mSupplierNameEditText.setOnTouchListener(mTouchListener);
-        mSupplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
+        // Setup FAB to open EditorActivity
+        FloatingActionButton editBook = (FloatingActionButton) findViewById(R.id.fab_edit);
+        editBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BookDetailsActivity.this, EditorActivity.class);
+                Uri currentBookUri = mCurrentBookUri;
+                intent.setData(currentBookUri);
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton deleteBook = (FloatingActionButton) findViewById(R.id.fab_delete);
         deleteBook.setOnClickListener(new View.OnClickListener() {
@@ -88,19 +86,75 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+
+        // Find all relevant views that we will need to read user input from
+        mTitleTextView = (TextView) findViewById(R.id.text_view_book_title);
+        mAuthorTextView = (TextView) findViewById(R.id.text_view_book_author);
+        mPriceTextView = (TextView) findViewById(R.id.text_view_book_price);
+        mQuantityTextView = (TextView) findViewById(R.id.text_view_book_quantity);
+        mSupplierNameTextView = (TextView) findViewById(R.id.text_view_supplier_name);
+        mSupplierPhoneNumberTextView = (TextView) findViewById(R.id.text_view_supplier_phone_number);
+
+
+        Button decreaseQuantity = (Button) findViewById(R.id.button_decrease);
+        decreaseQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(mQuantityTextView.getText().toString().trim());
+                if (quantity == 0) {
+                    quantity = 0;
+                } else {
+                    quantity = quantity - 1;
+
+                }
+                mQuantityTextView.setText(Integer.toString(quantity));
+                updateBook();
+            }
+        });
+
+        Button increaseQuantity = (Button) findViewById(R.id.button_increase);
+        increaseQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(mQuantityTextView.getText().toString().trim());
+                quantity = quantity + 1;
+                mQuantityTextView.setText(Integer.toString(quantity));
+                updateBook();
+            }
+        });
+
+//        mSupplierPhoneNumberTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel:" + Integer.parseInt(mSupplierPhoneNumberTextView.getText().toString().trim())));
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent);
+//                }
+//            }
+//        });
+
+
+//        mTitleTextView.setOnTouchListener(mTouchListener);
+//        mAuthorTextView.setOnTouchListener(mTouchListener);
+//        mPriceTextView.setOnTouchListener(mTouchListener);
+//        mQuantityTextView.setOnTouchListener(mTouchListener);
+//        mSupplierNameTextView.setOnTouchListener(mTouchListener);
+//        mSupplierPhoneNumberTextView.setOnTouchListener(mTouchListener);
+
         //getSupportLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
     }
 
     // OnTouchListener that listens for any user touches on a View, implying that they are modifying
 // the view, and we change the mBookHasChanged boolean to true.
 
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            mBookHasChanged = true;
-            return false;
-        }
-    };
+//    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            mBookHasChanged = true;
+//            return false;
+//        }
+//    };
 
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
@@ -125,77 +179,78 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    private void insertOrUpdateBook() {
+    private void updateBook() {
 
-        String titleString = mTitleEditText.getText().toString().trim();
-        String authorString = mAuthorEditText.getText().toString().trim();
-        String priceString = mPriceEditText.getText().toString().trim();
-        String quantityString = mQuantityEditText.getText().toString().trim();
-        String supplierNameString = mSupplierNameEditText.getText().toString().trim();
-        String supplierPhoneNumberString = mSupplierPhoneNumberEditText.getText().toString().trim();
+//        String titleString = mTitleTextView.getText().toString().trim();
+//        String authorString = mAuthorTextView.getText().toString().trim();
+//        String priceString = mPriceTextView.getText().toString().trim();
+        String quantityString = mQuantityTextView.getText().toString().trim();
+//        String supplierNameString = mQuantityTextView.getText().toString().trim();
+//        String supplierPhoneNumberString = mQuantityTextView.getText().toString().trim();
 
-        if (TextUtils.isEmpty(priceString)) {
-            priceString = "0";
-            mPriceEditText.setText(priceString);
-        }
+//        if (TextUtils.isEmpty(priceString)) {
+//            priceString = "0";
+//            mPriceTextView.setText(priceString);
+//        }
+//
+//        int priceInteger = Integer.parseInt(priceString);
 
-        int priceInteger = Integer.parseInt(priceString);
-
-        if (TextUtils.isEmpty(quantityString)) {
-            quantityString = "0";
-            mQuantityEditText.setText(quantityString);
-        }
 
         int quantityInteger = Integer.parseInt(quantityString);
-
-        if (!TextUtils.isEmpty(titleString)) {
-            // Create a ContentValues object where column names are the keys,
-            // and pet attributes from the editor are the values.
-            ContentValues values = new ContentValues();
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, titleString);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, authorString);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, priceInteger);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneNumberString);
-
-
-            // Insert a new pet into the provider, returning the content URI for the new pet.
-            if (mCurrentBookUri == null) {
-                Uri newUri = getContentResolver().insert(BookContract.BookDatabaseTitles.CONTENT_URI, values);
-
-                if (newUri == null) {
-                    // If the new content URI is null, then there was an error with insertion.
-                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    // Otherwise, the insertion was successful and we can display a toast.
-                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-                            Toast.LENGTH_SHORT).show();
-                    mCurrentBookUri = newUri;
-                }
-
-            } else {
-                int upInf = getContentResolver().update(mCurrentBookUri, values, null, null);
-                if (upInf != 1) {
-                    Log.e("UPDATE", "Wrong update number: " + upInf);
-                } else {
-                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditorActivity.this, CatalogBooksActivity.class);
-                    startActivity(intent);
-                }
-            }
+        ContentValues values = new ContentValues();
+        values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
+        int upInf = getContentResolver().update(mCurrentBookUri, values, null, null);
+        if (upInf != 1) {
+            Log.e("UPDATE", "Wrong update number: " + upInf);
         }
 
+//        if (!TextUtils.isEmpty(titleString)) {
+//            // Create a ContentValues object where column names are the keys,
+//            // and pet attributes from the editor are the values.
+//            ContentValues values = new ContentValues();
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, titleString);
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, authorString);
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, priceInteger);
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, quantityInteger);
+//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, quantityInteger);
+//
+//
+//            // Insert a new pet into the provider, returning the content URI for the new pet.
+//            if (mCurrentBookUri == null) {
+//                Uri newUri = getContentResolver().insert(BookContract.BookDatabaseTitles.CONTENT_URI, values);
+//
+//                if (newUri == null) {
+//                    // If the new content URI is null, then there was an error with insertion.
+//                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // Otherwise, the insertion was successful and we can display a toast.
+//                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+//                            Toast.LENGTH_SHORT).show();
+//                    mCurrentBookUri = newUri;
+//                }
+//
+//            } else {
+//                int upInf = getContentResolver().update(mCurrentBookUri, values, null, null);
+//                if (upInf != 1) {
+//                    Log.e("UPDATE", "Wrong update number: " + upInf);
+//                } else {
+//                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
+
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
-        return true;
-    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu options from the res/menu/menu_editor.xml file.
+//        // This adds menu items to the app bar.
+//        getMenuInflater().inflate(R.menu.menu_editor, menu);
+//        return true;
+//    }
 
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -213,13 +268,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            // Respond to a click on the "Save" menu option
-            case R.id.action_save:
-                // Save pet to databse
-                insertOrUpdateBook();
-                finish();
-                return true;
-            // Respond to a click on the "Delete" menu option
+//            // Respond to a click on the "Delete" menu option
 //            case R.id.action_delete:
 //                showDeleteConfirmationDialog();
 //                return true;
@@ -228,7 +277,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // If the pet hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mBookHasChanged) {
-                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    NavUtils.navigateUpFromSameTask(BookDetailsActivity.this);
                     return true;
                 }
 
@@ -240,7 +289,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // User clicked "Discard" button, navigate to parent activity.
-                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                                NavUtils.navigateUpFromSameTask(BookDetailsActivity.this);
                             }
                         };
 
@@ -302,8 +351,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // Close the activity
         finish();
-        Intent intent = new Intent(EditorActivity.this, CatalogBooksActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -340,7 +387,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME,
-                BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE };
+                BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -375,12 +422,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
 
             // Update the views on the screen with the values from the database
-            mTitleEditText.setText(bookTitle);
-            mAuthorEditText.setText(bookAuthor);
-            mPriceEditText.setText(Integer.toString(price));
-            mQuantityEditText.setText(Integer.toString(quantity));
-            mSupplierNameEditText.setText(supplierName);
-            mSupplierPhoneNumberEditText.setText(supplierPhone);
+            mTitleTextView.setText(bookTitle);
+            mAuthorTextView.setText(bookAuthor);
+            mPriceTextView.setText(Integer.toString(price));
+            mQuantityTextView.setText(Integer.toString(quantity));
+            mSupplierNameTextView.setText(supplierName);
+            mSupplierPhoneNumberTextView.setText(supplierPhone);
 
         }
     }
@@ -388,12 +435,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
-        mTitleEditText.setText("");
-        mAuthorEditText.setText("");
-        mPriceEditText.setText("");
-        mQuantityEditText.setText("");
-        mSupplierNameEditText.setText("");
-        mSupplierPhoneNumberEditText.setText("");
+        mTitleTextView.setText("");
+        mAuthorTextView.setText("");
+        mPriceTextView.setText("");
+        mQuantityTextView.setText("");
+        mSupplierNameTextView.setText("");
+        mSupplierPhoneNumberTextView.setText("");
     }
 
 }

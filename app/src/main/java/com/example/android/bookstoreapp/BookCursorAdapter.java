@@ -1,8 +1,14 @@
 package com.example.android.bookstoreapp;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +19,31 @@ import android.widget.TextView;
 
 import com.example.android.bookstoreapp.data.BookContract;
 
+import java.net.URI;
+
+
 /**
  * Created by egi-megi on 16.07.18.
  */
 
 public class BookCursorAdapter extends CursorAdapter {
 
-    int currentQuantity;
+
+    Uri tableUri;
+    ContentResolver cr;
+    Activity a;
     /**
+     *
      * Constructs a new {@link BookCursorAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public BookCursorAdapter(Context context, Cursor c) {
+    public BookCursorAdapter(Context context, Cursor c, Uri tableUri, ContentResolver cr, Activity a) {
         super(context, c, 0 /* flags */);
+        this.tableUri = tableUri;
+        this.cr =cr;
+        this.a=a;
     }
 
     /**
@@ -56,6 +72,9 @@ public class BookCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
+
+
         // Find fields to populate in inflated template
         TextView bookTitle = (TextView) view.findViewById(R.id.title);
         TextView bookAuthor = (TextView) view.findViewById(R.id.author);
@@ -67,10 +86,12 @@ public class BookCursorAdapter extends CursorAdapter {
         int priceColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY);
 
+        final int id=cursor.getInt(cursor.getColumnIndex(BookContract.BookDatabaseTitles._ID));
+
         String currentTitle = cursor.getString(titleColumnIndex);
         String currentAuthor = cursor.getString(authorColumnIndex);
         Integer currentPrice = cursor.getInt(priceColumnIndex);
-        currentQuantity = cursor.getInt(quantityColumnIndex);
+        int currentQuantity = cursor.getInt(quantityColumnIndex);
         // Populate fields with extracted properties
         bookTitle.setText(currentTitle);
 
@@ -88,10 +109,32 @@ public class BookCursorAdapter extends CursorAdapter {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentQuantity = currentQuantity - 1;
+                int currentQuantity = Integer.parseInt(quantity.getText().toString());
+                if(currentQuantity <= 0) {
+                    currentQuantity = 0;
+                } else{
+                    currentQuantity = currentQuantity - 1;
+                }
                 quantity.setText(Integer.toString(currentQuantity));
+
+                ContentValues values = new ContentValues();
+                values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, currentQuantity);
+                cr.update(tableUri, values, BookContract.BookDatabaseTitles._ID + " = "+ id, null);
             }
         });
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(a, BookDetailsActivity.class);
+
+                Uri currentBookUri = ContentUris.withAppendedId(BookContract.BookDatabaseTitles.CONTENT_URI, id);
+
+                intent.setData(currentBookUri);
+
+                a.startActivity(intent);
+            }
+        });
+
     }
 }
 

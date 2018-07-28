@@ -2,7 +2,6 @@ package com.example.android.bookstoreapp;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -16,8 +15,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,8 +36,8 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
         setContentView(R.layout.activity_catalog_books);
 
         // Setup FAB to open EditorActivity
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_add);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CatalogBooksActivity.this, EditorActivity.class);
@@ -48,9 +45,17 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
             }
         });
 
+        FloatingActionButton fabDelete = (FloatingActionButton) findViewById(R.id.fab_delete);
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteConfirmationDialog();
+            }
+        });
+
 
         // Find the ListView which will be populated with the pet data
-        ListView booksListView = (ListView) findViewById(R.id.list_view_pet);
+        ListView booksListView = (ListView) findViewById(R.id.list_view_book);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
@@ -59,22 +64,23 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
 
 
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
-        mBookCursorAdapter = new BookCursorAdapter(this, null);
+        mBookCursorAdapter = new BookCursorAdapter(this, null, BookContract.BookDatabaseTitles.CONTENT_URI,
+                getContentResolver(),this);
 // Attach cursor adapter to the ListView
         booksListView.setAdapter(mBookCursorAdapter);
 
-        booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(CatalogBooksActivity.this, EditorActivity.class);
 
-                Uri currentPetUri = ContentUris.withAppendedId(BookContract.BookDatabaseTitles.CONTENT_URI, id);
+                Uri currentBookUri = ContentUris.withAppendedId(BookContract.BookDatabaseTitles.CONTENT_URI, id);
 
-                intent.setData(currentPetUri);
+                intent.setData(currentBookUri);
 
                 startActivity(intent);
             }
-        });
+        });*/
 
         // Prepare the loader. Either re-connect with an existing one,
         // or start a new one.
@@ -125,11 +131,13 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
             case R.id.action_insert_dummy_data:
                 // Do nothing for now
                 insertBook();
+//                insertBook(9);
+//                insertBook(10);
                 return true;
-            // Respond to a click on the "Delete all entries" menu option
-            case R.id.action_delete_all_entries:
-                showDeleteConfirmationDialog();
-                return true;
+//            // Respond to a click on the "Delete all entries" menu option
+//            case R.id.action_delete_all_entries:
+//                showDeleteConfirmationDialog();
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,7 +150,7 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
-                deletePet();
+                deleteBook();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -163,7 +171,7 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
     /**
      * Perform the deletion of the pet in the database.
      */
-    private void deletePet() {
+    private void deleteBook() {
 
         int mRowsDeleted = getContentResolver().delete(
                 BookContract.BookDatabaseTitles.CONTENT_URI,   // the user dictionary content URI

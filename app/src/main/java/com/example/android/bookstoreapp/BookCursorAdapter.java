@@ -101,7 +101,7 @@ public class BookCursorAdapter extends CursorAdapter {
             bookAuthor.setText(String.valueOf(currentAuthor));
         }
 
-        price.setText(Integer.toString(currentPrice));
+        price.setText(Float.toString(currentPrice));
         quantity.setText(Integer.toString(currentQuantity));
 
 

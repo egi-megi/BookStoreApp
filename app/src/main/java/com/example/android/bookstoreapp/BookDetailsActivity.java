@@ -416,7 +416,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             // Extract out the value from the Cursor for the given column index
             String bookTitle = cursor.getString(titleColumnIndex);
             String bookAuthor = cursor.getString(authorColumnIndex);
-            int price = cursor.getInt(priceColumnIndex);
+            float price = cursor.getFloat(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
@@ -424,7 +424,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             // Update the views on the screen with the values from the database
             mTitleTextView.setText(bookTitle);
             mAuthorTextView.setText(bookAuthor);
-            mPriceTextView.setText(Integer.toString(price));
+            mPriceTextView.setText(Float.toString(price));
             mQuantityTextView.setText(Integer.toString(quantity));
             mSupplierNameTextView.setText(supplierName);
             mSupplierPhoneNumberTextView.setText(supplierPhone);

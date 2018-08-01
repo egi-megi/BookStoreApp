@@ -18,6 +18,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "bookstore.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
+    private static final String FLOAT_TYPE = " FLOAT";
     private static final String NOT_NULL = " NOT NULL";
     private static final String DEFAULT = " DEFAULT ";
     private static final String COMMA_SEP = ", ";
@@ -26,7 +27,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
                     BookContract.BookDatabaseTitles._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT," +
                     BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE + TEXT_TYPE + NOT_NULL + COMMA_SEP +
                     BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR + TEXT_TYPE + NOT_NULL + DEFAULT + "Unknown" + COMMA_SEP +
-                    BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                    BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
                     BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY + INTEGER_TYPE + NOT_NULL + DEFAULT + 0 + COMMA_SEP +
                     BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP +
                     BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE + TEXT_TYPE + NOT_NULL + ")";
@@ -59,7 +60,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
 
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, "Zawód wiedźma");
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, "Gromyko Olga");
-        values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, 8);
+        values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, 8.0);
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, 10);
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, "Papierowy Księżyc");
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, "+48 222 222 222");

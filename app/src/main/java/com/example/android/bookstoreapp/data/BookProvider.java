@@ -142,8 +142,8 @@ public class BookProvider extends ContentProvider{
 
 
 
-        Integer price = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
-        if (price != null && price < 0) {
+        Float price = values.getAsFloat(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
+        if (price != null && price < 0.0) {
             throw new IllegalArgumentException("Price of book must be bigger than 0");
         }
 
@@ -226,8 +226,8 @@ public class BookProvider extends ContentProvider{
 
 
         if (values.containsKey(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE)) {
-            Integer price = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
-            if (price != null && price < 0) {
+            Float price = values.getAsFloat(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
+            if (price != null && price < 0.0) {
                 throw new IllegalArgumentException("Price of book must be bigger than 0");
             }
         }

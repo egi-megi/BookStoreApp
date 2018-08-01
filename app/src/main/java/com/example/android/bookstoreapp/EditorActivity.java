@@ -139,7 +139,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mPriceEditText.setText(priceString);
         }
 
-        int priceInteger = Integer.parseInt(priceString);
+        float priceFloat = Float.parseFloat(priceString);
 
         if (TextUtils.isEmpty(quantityString)) {
             quantityString = "0";
@@ -154,7 +154,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             ContentValues values = new ContentValues();
             values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, titleString);
             values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, authorString);
-            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, priceInteger);
+            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, priceFloat);
             values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
             values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
             values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneNumberString);
@@ -369,7 +369,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Extract out the value from the Cursor for the given column index
             String bookTitle = cursor.getString(titleColumnIndex);
             String bookAuthor = cursor.getString(authorColumnIndex);
-            int price = cursor.getInt(priceColumnIndex);
+            float price = cursor.getFloat(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
@@ -377,7 +377,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Update the views on the screen with the values from the database
             mTitleEditText.setText(bookTitle);
             mAuthorEditText.setText(bookAuthor);
-            mPriceEditText.setText(Integer.toString(price));
+            mPriceEditText.setText(Float.toString(price));
             mQuantityEditText.setText(Integer.toString(quantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneNumberEditText.setText(supplierPhone);

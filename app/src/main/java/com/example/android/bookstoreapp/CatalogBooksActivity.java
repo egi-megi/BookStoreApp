@@ -103,7 +103,7 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
 
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, "Zawód wiedźma");
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, "Gromyko Olga");
-        values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, 8);
+        values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, 8.0);
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, 10);
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, "Papierowy Księżyc");
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, "+48 222 222 222");
@@ -194,7 +194,7 @@ public class CatalogBooksActivity extends AppCompatActivity implements LoaderMan
                 BookContract.BookDatabaseTitles._ID,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR,
-        BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE,
+                BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY};
 
         return new CursorLoader(

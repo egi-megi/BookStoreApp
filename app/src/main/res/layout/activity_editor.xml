@@ -80,7 +80,7 @@
             <!-- Weight field -->
             <EditText
                 android:id="@+id/edit_book_price"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditorFieldStyle" />
 
             <!-- Units for weight (kg) -->
@@ -156,5 +156,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_pet" />
+        android:src="@drawable/baseline_delete_white_24" />
 </LinearLayout>

@@ -166,7 +166,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_pet" />
+        android:src="@drawable/baseline_delete_white_24" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_edit"
@@ -174,5 +174,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_pet" />
+        android:src="@drawable/baseline_edit_white_24" />
 </LinearLayout>

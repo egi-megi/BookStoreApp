@@ -88,6 +88,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        FloatingActionButton saveBook = (FloatingActionButton) findViewById(R.id.fab_save);
+        saveBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertOrUpdateBook();
+                finish();
+            }
+        });
+
         //getSupportLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
     }
 
@@ -189,13 +198,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu options from the res/menu/menu_editor.xml file.
+//        // This adds menu items to the app bar.
+//        getMenuInflater().inflate(R.menu.menu_editor, menu);
+//        return true;
+//    }
 
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -214,11 +223,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
-            case R.id.action_save:
-                // Save pet to databse
-                insertOrUpdateBook();
-                finish();
-                return true;
+//            case R.id.action_save:
+//                // Save pet to databse
+//                insertOrUpdateBook();
+//                finish();
+//                return true;
             // Respond to a click on the "Delete" menu option
 //            case R.id.action_delete:
 //                showDeleteConfirmationDialog();

@@ -4,14 +4,9 @@
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#42A5F5</color>
 
-    <!-- Primary color for the editor -->
-    <color name="editorColorPrimary">#2D3640</color>
+    <color name="backgroundColorDarker">#0A237E</color>
 
-    <!-- Primary dark color for the editor -->
-    <color name="editorColorPrimaryDark">#394450</color>
-
-    <color name="emptyPageBackground">#0A237E</color>
-
+    <color name="textColorLightBlue">#82D5FF</color>
     <color name="textColorWhite">#FFFFFF</color>
 
 

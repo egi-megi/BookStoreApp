@@ -9,8 +9,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 --><!-- Layout for the editor -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColorDarker">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -65,24 +72,36 @@
             style="@style/CategoryStyle"
             android:text="Price" />
 
-        <!-- Input fields -->
-        <RelativeLayout
-            android:layout_width="0dp"
+        <LinearLayout
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_weight="2"
-            android:paddingLeft="4dp">
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
 
             <!-- Weight field -->
             <TextView
                 android:id="@+id/text_view_book_price"
-                style="@style/EditorFieldStyle" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@color/textColorWhite"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/text_to_edit"/>
 
             <!-- Units for weight (kg) -->
             <TextView
                 android:id="@+id/label_price_units"
-                style="@style/EditorUnitsStyle"
-                android:text="$" />
-        </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"
+                android:textColor="@color/textColorWhite"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/text_to_edit"
+                android:layout_marginLeft="@dimen/space_between_value_unit"/>
+
+        </LinearLayout>
+
     </LinearLayout>
     <!-- Author category -->
     <LinearLayout
@@ -93,29 +112,48 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"
             android:text="Quantity" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/space_above_button">
 
         <Button
             android:id="@+id/button_decrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-" />
+            android:layout_width="@dimen/button_plus_minus"
+            android:layout_height="@dimen/button_plus_minus"
+            android:text="-"
+            android:textSize="@dimen/text_on_plus_minus"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:background="@color/textColorWhite" />
 
         <!-- Name field -->
         <TextView
             android:id="@+id/text_view_book_quantity"
-            style="@style/EditorFieldStyle"
             android:layout_width="wrap_content"
-            android:text="999"/>
-
-
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="18sp"
+            android:textColor="@color/textColorWhite"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginBottom="4dp"/>
 
         <Button
             android:id="@+id/button_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+" />
+            android:layout_width="@dimen/button_plus_minus"
+            android:layout_height="@dimen/button_plus_minus"
+            android:text="+"
+            android:textSize="@dimen/text_on_plus_minus"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:background="@color/textColorWhite"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -127,7 +165,6 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"
             android:text="Supplier Name" />
 
         <!-- Name field -->
@@ -145,26 +182,40 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"
             android:text="Supplier Phone Number" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
         <!-- Name field -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/button_width_phone"
             android:layout_height="wrap_content"
             android:id="@+id/text_view_supplier_phone_number"
             android:autoLink="phone"
             android:clickable="true"
-            style="@style/EditorFieldStyle" />
+            android:textSize="@dimen/text_to_edit"
+            android:background="@color/textColorWhite"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin"
+            android:textAlignment="center"/>
+        </LinearLayout>
 
     </LinearLayout>
+
+</LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_delete_white_24" />
 
@@ -172,7 +223,10 @@
         android:id="@+id/fab_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_edit_white_24" />
-</LinearLayout>
+
+
+</RelativeLayout>

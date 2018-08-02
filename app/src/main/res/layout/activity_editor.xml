@@ -11,6 +11,14 @@
      limitations under the License.
 -->
 <!-- Layout for the editor -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColorDarker">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -71,24 +79,35 @@
             style="@style/CategoryStyle" />
 
         <!-- Input fields -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:paddingLeft="4dp">
+            android:paddingLeft="4dp"
+            android:orientation="horizontal">
 
             <!-- Weight field -->
             <EditText
                 android:id="@+id/edit_book_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                style="@style/EditorFieldStyle" />
+                android:textColor="@color/textColorWhite"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"/>
 
             <!-- Units for weight (kg) -->
             <TextView
                 android:id="@+id/label_price_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="$"
-                style="@style/EditorUnitsStyle"/>
-        </RelativeLayout>
+                android:textColor="@color/textColorWhite"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
     </LinearLayout>
     <!-- Author category -->
     <LinearLayout
@@ -145,16 +164,25 @@
             android:id="@+id/edit_supplier_phone_number"
             android:inputType="number|phone"
             style="@style/EditorFieldStyle" />
-
     </LinearLayout>
-
+</LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_delete_white_24" />
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_done" />
+
+</RelativeLayout>

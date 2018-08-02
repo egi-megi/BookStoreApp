@@ -5,4 +5,14 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+
+    <dimen name="space_between_value_unit">4dp</dimen>
+
+    <dimen name="space_above_button">6dp</dimen>
+
+    <dimen name="button_plus_minus">36dp</dimen>
+    <dimen name="text_on_plus_minus">24sp</dimen>
+    <dimen name="button_width_phone">180dp</dimen>
+
+    <dimen name="text_to_edit">18sp</dimen>
 </resources>

@@ -12,7 +12,17 @@
 
     <dimen name="button_plus_minus">36dp</dimen>
     <dimen name="text_on_plus_minus">24sp</dimen>
-    <dimen name="button_width_phone">180dp</dimen>
+    <dimen name="button_phone_width">180dp</dimen>
+    <dimen name="button_phone_margins_top_bottom">8dp</dimen>
+
+    <dimen name="margin_bottom_minus">-3dp</dimen>
+
+    <dimen name="empty_page_space_between_text">12dp</dimen>
 
     <dimen name="text_to_edit">18sp</dimen>
+    <dimen name="text_author_quantity">14sp</dimen>
+    <dimen name="text_price">26sp</dimen>
+    <dimen name="text_quantity">16sp</dimen>
+
+    <dimen name="line_height">2dp</dimen>
 </resources>

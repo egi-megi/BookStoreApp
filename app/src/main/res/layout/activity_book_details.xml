@@ -33,7 +33,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Book's title" />
+            android:text="@string/book_title" />
 
         <!-- Name field -->
         <TextView
@@ -51,7 +51,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Book's author" />
+            android:text="@string/book_author" />
 
         <!-- Name field -->
         <TextView
@@ -70,7 +70,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Price" />
+            android:text="@string/price" />
 
         <LinearLayout
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:layout_gravity="bottom">
 
             <!-- Weight field -->
-            <TextView
+            <EditText
                 android:id="@+id/text_view_book_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                 android:id="@+id/label_price_units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$"
+                android:text="@string/dollar"
                 android:textColor="@color/textColorWhite"
                 android:fontFamily="sans-serif-light"
                 android:textSize="@dimen/text_to_edit"
@@ -112,7 +112,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Quantity" />
+            android:text="@string/quantity" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -125,7 +125,7 @@
             android:id="@+id/button_decrease"
             android:layout_width="@dimen/button_plus_minus"
             android:layout_height="@dimen/button_plus_minus"
-            android:text="-"
+            android:text="@string/minus"
             android:textSize="@dimen/text_on_plus_minus"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
@@ -136,18 +136,17 @@
             android:id="@+id/text_view_book_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="999"
             android:textSize="18sp"
             android:textColor="@color/textColorWhite"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="@dimen/space_between_value_unit"/>
 
         <Button
             android:id="@+id/button_increase"
             android:layout_width="@dimen/button_plus_minus"
             android:layout_height="@dimen/button_plus_minus"
-            android:text="+"
+            android:text="@string/plus"
             android:textSize="@dimen/text_on_plus_minus"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
@@ -165,7 +164,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Supplier Name" />
+            android:text="@string/supplier_name" />
 
         <!-- Name field -->
         <TextView
@@ -182,7 +181,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Supplier Phone Number" />
+            android:text="@string/supplier_name" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -192,15 +191,16 @@
             android:layout_gravity="bottom">
         <!-- Name field -->
         <TextView
-            android:layout_width="@dimen/button_width_phone"
+            android:layout_width="@dimen/button_phone_width"
             android:layout_height="wrap_content"
             android:id="@+id/text_view_supplier_phone_number"
             android:autoLink="phone"
             android:clickable="true"
+            android:focusable="true"
             android:textSize="@dimen/text_to_edit"
             android:background="@color/textColorWhite"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="@dimen/button_phone_margins_top_bottom"
+            android:paddingBottom="@dimen/button_phone_margins_top_bottom"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"
             android:textAlignment="center"/>
@@ -216,6 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_delete_white_24" />
 
@@ -224,6 +225,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_edit_white_24" />

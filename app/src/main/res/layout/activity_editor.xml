@@ -36,7 +36,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Book's title"
+            android:text="@string/book_title"
             style="@style/CategoryStyle" />
 
             <!-- Name field -->
@@ -55,7 +55,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Book's author"
+            android:text="@string/book_author"
             style="@style/CategoryStyle" />
 
         <!-- Name field -->
@@ -75,7 +75,7 @@
 
         <!-- Label -->
         <TextView
-            android:text="Price"
+            android:text="@string/price"
             style="@style/CategoryStyle" />
 
         <!-- Input fields -->
@@ -83,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:paddingLeft="4dp"
+            android:paddingLeft="@dimen/space_between_value_unit"
+            android:paddingStart="@dimen/space_between_value_unit"
             android:orientation="horizontal">
 
             <!-- Weight field -->
@@ -94,17 +95,18 @@
                 android:inputType="numberDecimal"
                 android:textColor="@color/textColorWhite"
                 android:fontFamily="sans-serif-light"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/text_to_edit"
+                android:backgroundTint="@color/textColorWhite"/>
 
             <!-- Units for weight (kg) -->
             <TextView
                 android:id="@+id/label_price_units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$"
+                android:text="@string/dollar"
                 android:textColor="@color/textColorWhite"
                 android:fontFamily="sans-serif-light"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/text_to_edit"/>
 
         </LinearLayout>
 
@@ -117,9 +119,9 @@
 
         <!-- Label -->
         <TextView
-            android:text="Quantity"
+            android:text="@string/quantity"
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
+            android:paddingLeft="@dimen/space_between_value_unit"/>
 
         <!-- Name field -->
         <EditText
@@ -136,9 +138,10 @@
 
         <!-- Label -->
         <TextView
-            android:text="Supplier Name"
+            android:text="@string/supplier_phone_number"
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
+            android:paddingLeft="@dimen/space_between_value_unit"
+            android:paddingStart="@dimen/space_between_value_unit"/>
 
         <!-- Name field -->
         <EditText
@@ -155,9 +158,10 @@
 
         <!-- Label -->
         <TextView
-            android:text="Supplier Phone Number"
+            android:text="@string/supplier_phone_number"
             style="@style/CategoryStyle"
-            android:paddingLeft="4dp"/>
+            android:paddingLeft="@dimen/space_between_value_unit"
+            android:paddingStart="@dimen/space_between_value_unit"/>
 
         <!-- Name field -->
         <EditText
@@ -173,6 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/baseline_delete_white_24" />
 
@@ -182,6 +187,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_done" />
 

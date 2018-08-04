@@ -12,10 +12,11 @@
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/textColorWhite"
-        android:textSize="18dp"
+        android:textSize="@dimen/text_to_edit"
         android:textStyle="bold"
         android:paddingLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"/>
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/margin_bottom_minus"/>
 
     <TextView
         android:id="@+id/author"
@@ -24,7 +25,7 @@
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/textColorWhite"
-        android:textSize="14dp"
+        android:textSize="@dimen/text_author_quantity"
         android:textStyle="italic"
         android:paddingLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"/>
@@ -45,17 +46,18 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_bottom_minus">
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="@dimen/space_between_value_unit"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/textColorWhite"
-            android:textSize="26dp"
+            android:textSize="@dimen/text_price"
             android:textStyle="bold"/>
 
         <TextView
@@ -63,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="$"
+            android:text="@string/dollar"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/textColorWhite"
-            android:textSize="26dp"
+            android:textSize="@dimen/text_price"
             android:textStyle="bold" />
 
             </LinearLayout>
@@ -81,10 +83,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Quantity in stock: "
+            android:text="@string/quantity"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/textColorLightBlue"
-            android:textSize="16dp"/>
+            android:textSize="@dimen/text_quantity"/>
 
         <TextView
             android:id="@+id/quantity"
@@ -94,7 +96,7 @@
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/textColorLightBlue"
-            android:textSize="14dp"/>
+            android:textSize="@dimen/text_author_quantity"/>
 
                 </LinearLayout>
 
@@ -105,8 +107,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Buy"
-            android:textSize="18dp"
+            android:text="@string/buy"
+            android:textSize="@dimen/text_to_edit"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
             android:background="@color/textColorWhite" />
@@ -115,8 +117,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/line_height"
         android:background="@color/textColorWhite"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="@dimen/button_phone_margins_top_bottom"
+        android:layout_marginBottom="@dimen/button_phone_margins_top_bottom" />
 </LinearLayout>

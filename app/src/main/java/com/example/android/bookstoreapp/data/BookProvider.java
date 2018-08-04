@@ -22,7 +22,6 @@ public class BookProvider extends ContentProvider{
 
     private BookDbHelper mBookDbHelper;
 
-
     /**
      * URI matcher code for the content URI for the books table
      */
@@ -77,25 +76,17 @@ public class BookProvider extends ContentProvider{
         int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                // For the BOOKS code, query the pets table directly with the given
+                // For the BOOKS code, query the books table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the pets table.
+                // could contain multiple rows of the books table.
                 cursor = database.query(BookContract.BookDatabaseTitles.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case BOOK_ID:
-                // For the BOOK_ID code, extract out the ID from the URI.
-                // For an example URI such as "content://com.example.android.pets/pets/3",
-                // the selection will be "_id=?" and the selection argument will be a
-                // String array containing the actual ID of 3 in this case.
-                //
-                // For every "?" in the selection, we need to have an element in the selection
-                // arguments that will fill in the "?". Since we have 1 question mark in the
-                // selection, we have 1 String in the selection arguments' String array.
                 selection = BookContract.BookDatabaseTitles._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the books table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(BookContract.BookDatabaseTitles.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -124,7 +115,7 @@ public class BookProvider extends ContentProvider{
     }
 
     /**
-     * Insert a pet into the database with the given content values. Return the new content URI
+     * Insert a book into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
     private Uri insertBook(Uri uri, ContentValues values) {
@@ -135,29 +126,31 @@ public class BookProvider extends ContentProvider{
             throw new IllegalArgumentException("Book requires a title");
         }
 
+        // Check that the author is not null
         String author = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR);
         if (author == null) {
             throw new IllegalArgumentException("Book requires an author");
         }
 
-
-
+        // Check that the price is not null
         Float price = values.getAsFloat(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
         if (price != null && price < 0.0) {
             throw new IllegalArgumentException("Price of book must be bigger than 0");
         }
 
+        // Check that the quantity is not null
         Integer quantity = values.getAsInteger(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY);
         if (quantity != null && quantity < 0) {
             throw new IllegalArgumentException("Quantity of book must be bigger than 0");
         }
 
-        // Check that the title is not null
+        // Check that the supplier name is not null
         String supplierName = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME);
         if (supplierName == null) {
             throw new IllegalArgumentException("Book requires a name of supplier");
         }
 
+        // Check that the supplier phone number is not null
         String supplierPhoneNumber = values.getAsString(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE);
         if (supplierPhoneNumber == null) {
             throw new IllegalArgumentException("Book requires a supplier's phone number");
@@ -166,7 +159,7 @@ public class BookProvider extends ContentProvider{
         // Create and/or open a database to read from it
         SQLiteDatabase database = mBookDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new bookh with the given values
         long id = database.insert(BookContract.BookDatabaseTitles.TABLE_NAME, null, values);
 
         if (id == -1) {
@@ -247,7 +240,7 @@ public class BookProvider extends ContentProvider{
             }
         }
 
-// No need to check the breed, any value is valid (including null).
+         // No need to check the breed, any value is valid (including null).
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {

@@ -87,14 +87,6 @@ public class BookCursorAdapter extends CursorAdapter {
 
         final int id=cursor.getInt(cursor.getColumnIndex(BookContract.BookDatabaseTitles._ID));
 
-//        View textContainer = view.findViewById(R.id.single_list_item);
-//        if (id % 2 == 0){
-//            textContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.backgroundColorDarker));
-//        } else {
-//            textContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.backgroundColorLighter));
-//        }
-
-
         String currentTitle = cursor.getString(titleColumnIndex);
         String currentAuthor = cursor.getString(authorColumnIndex);
         Integer currentPrice = cursor.getInt(priceColumnIndex);

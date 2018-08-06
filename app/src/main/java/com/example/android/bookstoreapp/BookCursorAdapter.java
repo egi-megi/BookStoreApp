@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +26,8 @@ import com.example.android.bookstoreapp.data.BookContract;
 
 public class BookCursorAdapter extends CursorAdapter {
 
-
     Uri tableUri;
-    ContentResolver cr;
+    ContentResolver contentResolver;
     Activity a;
 
     /**
@@ -38,10 +36,10 @@ public class BookCursorAdapter extends CursorAdapter {
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public BookCursorAdapter(Context context, Cursor c, Uri tableUri, ContentResolver cr, Activity a) {
+    public BookCursorAdapter(Context context, Cursor c, Uri tableUri, ContentResolver contentResolver, Activity a) {
         super(context, c, 0 /* flags */);
         this.tableUri = tableUri;
-        this.cr = cr;
+        this.contentResolver = contentResolver;
         this.a = a;
     }
 
@@ -118,7 +116,7 @@ public class BookCursorAdapter extends CursorAdapter {
 
                 ContentValues values = new ContentValues();
                 values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, currentQuantity);
-                cr.update(tableUri, values, BookContract.BookDatabaseTitles._ID + " = " + id, null);
+                contentResolver.update(tableUri, values, BookContract.BookDatabaseTitles._ID + " = " + id, null);
             }
         });
 

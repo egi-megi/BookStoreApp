@@ -79,12 +79,11 @@
                 android:orientation="horizontal">
 
                 <!-- Weight field -->
-                <EditText
+                <TextView
                     android:id="@+id/text_view_book_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/textColorWhite"
                     android:textSize="@dimen/text_to_edit" />
 
@@ -131,13 +130,14 @@
                     android:textStyle="bold" />
 
                 <!-- Name field -->
-                <TextView
+                <EditText
                     android:id="@+id/text_view_book_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_between_value_unit"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
+                    android:inputType="number"
                     android:textColor="@color/textColorWhite"
                     android:textSize="18sp" />
 

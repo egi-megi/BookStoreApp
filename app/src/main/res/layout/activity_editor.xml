@@ -137,7 +137,7 @@
                 style="@style/CategoryStyle"
                 android:paddingLeft="@dimen/space_between_value_unit"
                 android:paddingStart="@dimen/space_between_value_unit"
-                android:text="@string/supplier_phone_number" />
+                android:text="@string/supplier_name" />
 
             <!-- Name field -->
             <EditText

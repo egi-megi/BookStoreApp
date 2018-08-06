@@ -93,7 +93,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View view) {
                 insertOrUpdateBook();
-                finish();
             }
         });
 
@@ -156,6 +155,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         int quantityInteger = Integer.parseInt(quantityString);
 
+        if (TextUtils.isEmpty(authorString)) {
+            mAuthorEditText.setText(R.string.unknown_author);
+        }
+
+        if (TextUtils.isEmpty(supplierNameString)) {
+            mSupplierNameEditText.setText(R.string.unknown_supplier_name);
+        }
+
+        if (TextUtils.isEmpty(supplierPhoneNumberString)) {
+            mSupplierPhoneNumberEditText.setText(R.string.unknown_supplier_phone_number);
+        }
+
         if (!TextUtils.isEmpty(titleString)) {
             // Create a ContentValues object where column names are the keys,
             // and book attributes from the editor are the values.
@@ -193,7 +204,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     Intent intent = new Intent(EditorActivity.this, CatalogBooksActivity.class);
                     startActivity(intent);
                 }
+                finish();
             }
+        } else {
+            showEmptyTitleConfirmationDialog();
         }
 
     }
@@ -256,6 +270,34 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    private void showEmptyTitleConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.empty_title_dialog_msg);
+        builder.setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the book.
+                Intent intent = new Intent(EditorActivity.this, CatalogBooksActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the book.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
     /**
      * Perform the deletion of the book in the database.

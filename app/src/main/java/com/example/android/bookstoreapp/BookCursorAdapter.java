@@ -31,8 +31,8 @@ public class BookCursorAdapter extends CursorAdapter {
     Uri tableUri;
     ContentResolver cr;
     Activity a;
+
     /**
-     *
      * Constructs a new {@link BookCursorAdapter}.
      *
      * @param context The context
@@ -41,8 +41,8 @@ public class BookCursorAdapter extends CursorAdapter {
     public BookCursorAdapter(Context context, Cursor c, Uri tableUri, ContentResolver cr, Activity a) {
         super(context, c, 0 /* flags */);
         this.tableUri = tableUri;
-        this.cr =cr;
-        this.a=a;
+        this.cr = cr;
+        this.a = a;
     }
 
     /**
@@ -60,9 +60,8 @@ public class BookCursorAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
-     * in the list item layout.
+     * This method binds the book data (in the current row pointed to by cursor) to the given
+     * list item layout.
      *
      * @param view    Existing view, returned earlier by newView() method
      * @param context app context
@@ -73,29 +72,30 @@ public class BookCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
 
-
         // Find fields to populate in inflated template
         TextView bookTitle = (TextView) view.findViewById(R.id.title);
         TextView bookAuthor = (TextView) view.findViewById(R.id.author);
         TextView price = (TextView) view.findViewById(R.id.price);
         final TextView quantity = (TextView) view.findViewById(R.id.quantity);
+
         // Extract properties from cursor
         int titleColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
         int authorColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR);
         int priceColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY);
 
-        final int id=cursor.getInt(cursor.getColumnIndex(BookContract.BookDatabaseTitles._ID));
+        final int id = cursor.getInt(cursor.getColumnIndex(BookContract.BookDatabaseTitles._ID));
 
         String currentTitle = cursor.getString(titleColumnIndex);
         String currentAuthor = cursor.getString(authorColumnIndex);
         Integer currentPrice = cursor.getInt(priceColumnIndex);
         int currentQuantity = cursor.getInt(quantityColumnIndex);
-        // Populate fields with extracted properties
+
+
         bookTitle.setText(currentTitle);
 
         if (TextUtils.isEmpty(currentAuthor)) {
-            bookAuthor.setText("Unknown author");
+            bookAuthor.setText(R.string.unknown_author);
         } else {
             bookAuthor.setText(String.valueOf(currentAuthor));
         }
@@ -103,24 +103,26 @@ public class BookCursorAdapter extends CursorAdapter {
         price.setText(Float.toString(currentPrice));
         quantity.setText(Integer.toString(currentQuantity));
 
-
+        // A button that subtracts 1 from the quantity of books in the magazine
         Button buyButton = (Button) view.findViewById(R.id.buy_button);
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int currentQuantity = Integer.parseInt(quantity.getText().toString());
-                if(currentQuantity <= 0) {
+                if (currentQuantity <= 0) {
                     currentQuantity = 0;
-                } else{
+                } else {
                     currentQuantity = currentQuantity - 1;
                 }
                 quantity.setText(Integer.toString(currentQuantity));
 
                 ContentValues values = new ContentValues();
                 values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, currentQuantity);
-                cr.update(tableUri, values, BookContract.BookDatabaseTitles._ID + " = "+ id, null);
+                cr.update(tableUri, values, BookContract.BookDatabaseTitles._ID + " = " + id, null);
             }
         });
+
+        // Intent from one item with book to activity with details of clicked book
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

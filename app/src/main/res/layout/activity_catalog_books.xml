@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <!-- Empty view for the list -->
-    <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Empty view for the list -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CatalogBooksActivity"
     android:background="@color/backgroundColorDarker"
-    android:paddingTop="@dimen/button_phone_margins_top_bottom">
+    android:paddingTop="@dimen/button_phone_margins_top_bottom"
+    tools:context=".CatalogBooksActivity">
 
-        <ListView
-            android:id="@+id/list_view_book"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <ListView
+        android:id="@+id/list_view_book"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/empty_view"
@@ -28,9 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/textColorWhite"
             android:text="@string/empty_view_title_text"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/textColorWhite" />
 
         <TextView
             android:id="@+id/empty_subtitle_text"
@@ -39,19 +38,19 @@
             android:layout_below="@+id/empty_title_text"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:textColor="@color/textColorWhite"
             android:paddingTop="@dimen/empty_page_space_between_text"
             android:text="@string/empty_view_subtitle_text"
-            android:textAppearance="?android:textAppearanceSmall" />
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/textColorWhite" />
 
         <ImageView
             android:id="@+id/empty_page_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/empty_subtitle_text"
+            android:layout_centerHorizontal="true"
             android:paddingTop="@dimen/empty_page_space_between_text"
-            android:src="@drawable/empty_page_image_1_shadow_2"/>
+            android:src="@drawable/empty_page_image_1_shadow_2" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -59,10 +58,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/baseline_add_white_24"/>
+        android:src="@drawable/baseline_add_white_24" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"

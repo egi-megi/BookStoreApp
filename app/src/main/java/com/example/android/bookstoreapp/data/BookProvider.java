@@ -13,7 +13,7 @@ import android.util.Log;
  * Created by egi-megi on 16.07.18.
  */
 
-public class BookProvider extends ContentProvider{
+public class BookProvider extends ContentProvider {
 
     /**
      * Tag for the log messages
@@ -197,8 +197,8 @@ public class BookProvider extends ContentProvider{
     }
 
     /**
-     * Update pets in the database with the given content values. Apply the changes to the rows
-     * specified in the selection and selection arguments (which could be 0 or 1 or more pets).
+     * Update books in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more books).
      * Return the number of rows that were successfully updated.
      */
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
@@ -240,7 +240,7 @@ public class BookProvider extends ContentProvider{
             }
         }
 
-         // No need to check the breed, any value is valid (including null).
+        // No need to check the breed, any value is valid (including null).
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {

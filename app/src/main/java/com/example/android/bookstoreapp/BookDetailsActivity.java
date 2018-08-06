@@ -52,21 +52,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
         mCurrentBookUri = intent.getData();
         getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
 
-//        if (mCurrentBookUri == null) {
-//            setTitle(getString(R.string.editor_activity_title_new_book));
-//            // Invalidate the options menu, so the "Delete" menu option can be hidden.
-//            // (It doesn't make sense to delete a pet that hasn't been created yet.)
-//            invalidateOptionsMenu();
-//        } else {
-//            setTitle(getString(R.string.editor_activity_title_edit_book));
-//
-//
-//            // Initialize a loader to read the pet data from the database
-//            // and display the current values in the editor
-//            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
-//        }
-
-        // Setup FAB to open EditorActivity
+        // Setting FAB to open EditorActivity
         FloatingActionButton editBook = (FloatingActionButton) findViewById(R.id.fab_edit);
         editBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +64,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             }
         });
 
+        // Setting FAB to delete all books
         FloatingActionButton deleteBook = (FloatingActionButton) findViewById(R.id.fab_delete);
         deleteBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +74,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
         });
 
 
-        // Find all relevant views that we will need to read user input from
+        // Finding all relevant views that we will need to read user input from
         mTitleTextView = (TextView) findViewById(R.id.text_view_book_title);
         mAuthorTextView = (TextView) findViewById(R.id.text_view_book_author);
         mPriceTextView = (TextView) findViewById(R.id.text_view_book_price);
@@ -95,7 +82,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
         mSupplierNameTextView = (TextView) findViewById(R.id.text_view_supplier_name);
         mSupplierPhoneNumberTextView = (TextView) findViewById(R.id.text_view_supplier_phone_number);
 
-
+        // A button that subtracts 1 from the quantity of books in the magazine
         Button decreaseQuantity = (Button) findViewById(R.id.button_decrease);
         decreaseQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +99,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             }
         });
 
+        // A button that adds 1 to the quantity of books in the magazine
         Button increaseQuantity = (Button) findViewById(R.id.button_increase);
         increaseQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,38 +111,8 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             }
         });
 
-//        mSupplierPhoneNumberTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_DIAL);
-//                intent.setData(Uri.parse("tel:" + Integer.parseInt(mSupplierPhoneNumberTextView.getText().toString().trim())));
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                }
-//            }
-//        });
-
-
-//        mTitleTextView.setOnTouchListener(mTouchListener);
-//        mAuthorTextView.setOnTouchListener(mTouchListener);
-//        mPriceTextView.setOnTouchListener(mTouchListener);
-//        mQuantityTextView.setOnTouchListener(mTouchListener);
-//        mSupplierNameTextView.setOnTouchListener(mTouchListener);
-//        mSupplierPhoneNumberTextView.setOnTouchListener(mTouchListener);
-
-        //getSupportLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
     }
 
-    // OnTouchListener that listens for any user touches on a View, implying that they are modifying
-// the view, and we change the mBookHasChanged boolean to true.
-
-//    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-//        @Override
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            mBookHasChanged = true;
-//            return false;
-//        }
-//    };
 
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
@@ -166,7 +124,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the book.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -181,21 +139,8 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
 
     private void updateBook() {
 
-//        String titleString = mTitleTextView.getText().toString().trim();
-//        String authorString = mAuthorTextView.getText().toString().trim();
-//        String priceString = mPriceTextView.getText().toString().trim();
+        //here is updating only the quantity
         String quantityString = mQuantityTextView.getText().toString().trim();
-//        String supplierNameString = mQuantityTextView.getText().toString().trim();
-//        String supplierPhoneNumberString = mQuantityTextView.getText().toString().trim();
-
-//        if (TextUtils.isEmpty(priceString)) {
-//            priceString = "0";
-//            mPriceTextView.setText(priceString);
-//        }
-//
-//        int priceInteger = Integer.parseInt(priceString);
-
-
         int quantityInteger = Integer.parseInt(quantityString);
         ContentValues values = new ContentValues();
         values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
@@ -203,79 +148,17 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
         if (upInf != 1) {
             Log.e("UPDATE", "Wrong update number: " + upInf);
         }
-
-//        if (!TextUtils.isEmpty(titleString)) {
-//            // Create a ContentValues object where column names are the keys,
-//            // and pet attributes from the editor are the values.
-//            ContentValues values = new ContentValues();
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE, titleString);
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR, authorString);
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE, priceInteger);
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_QUANTITY, quantityInteger);
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_NAME, quantityInteger);
-//            values.put(BookContract.BookDatabaseTitles.COLUMN_BOOK_SUPPLIER_PHONE, quantityInteger);
-//
-//
-//            // Insert a new pet into the provider, returning the content URI for the new pet.
-//            if (mCurrentBookUri == null) {
-//                Uri newUri = getContentResolver().insert(BookContract.BookDatabaseTitles.CONTENT_URI, values);
-//
-//                if (newUri == null) {
-//                    // If the new content URI is null, then there was an error with insertion.
-//                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    // Otherwise, the insertion was successful and we can display a toast.
-//                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-//                            Toast.LENGTH_SHORT).show();
-//                    mCurrentBookUri = newUri;
-//                }
-//
-//            } else {
-//                int upInf = getContentResolver().update(mCurrentBookUri, values, null, null);
-//                if (upInf != 1) {
-//                    Log.e("UPDATE", "Wrong update number: " + upInf);
-//                } else {
-//                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }
-
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu options from the res/menu/menu_editor.xml file.
-//        // This adds menu items to the app bar.
-//        getMenuInflater().inflate(R.menu.menu_editor, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        super.onPrepareOptionsMenu(menu);
-//        // If this is a new pet, hide the "Delete" menu item.
-//        if (mCurrentBookUri == null) {
-//            MenuItem menuItem = menu.findItem(R.id.action_delete);
-//            menuItem.setVisible(false);
-//        }
-//        return true;
-//    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-//            // Respond to a click on the "Delete" menu option
-//            case R.id.action_delete:
-//                showDeleteConfirmationDialog();
-//                return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
-                // which is the {@link CatalogActivity}.
+                // If the book hasn't changed, continue with navigating up to parent activity
+                // which is the {@link CatalogBooksActivity}.
                 if (!mBookHasChanged) {
                     NavUtils.navigateUpFromSameTask(BookDetailsActivity.this);
                     return true;
@@ -302,19 +185,19 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
 
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the book.
                 deleteBook();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the book.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -327,15 +210,14 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the book in the database.
      */
     private void deleteBook() {
 
         if (mCurrentBookUri != null) {
-            // Call the ContentResolver to delete the pet at the given content URI.
+            // Call the ContentResolver to delete the book at the given content URI.
             // Pass in null for the selection and selection args because the mCurrentBookUri
-            // content URI already identifies the pet that we want.
-// Deletes the words that match the selection criteria
+            // content URI already identifies the book that we want.
             int mRowsDeleted = getContentResolver().delete(
                     mCurrentBookUri,   // the user dictionary content URI
                     null,                    // the column to select on
@@ -348,14 +230,13 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
                 Toast.makeText(this, "The book is deleted", Toast.LENGTH_SHORT).show();
             }
         }
-
         // Close the activity
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+        // If the book hasn't changed, continue with handling back button press
         if (!mBookHasChanged) {
             super.onBackPressed();
             return;
@@ -378,8 +259,8 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // Since the editor shows all pet attributes, define a projection that contains
-        // all columns from the pet table
+        // Since the editor shows all book attributes, define a projection that contains
+        // all columns from the book table
         String[] projection = {
                 BookContract.BookDatabaseTitles._ID,
                 BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE,
@@ -391,11 +272,11 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
-                mCurrentBookUri,         // Query the content URI for the current pet
-                projection,             // Columns to include in the resulting Cursor
-                null,                   // No selection clause
-                null,                   // No selection arguments
-                null);                  // Default sort order
+                mCurrentBookUri,                // Query the content URI for the current book
+                projection,                     // Columns to include in the resulting Cursor
+                null,                  // No selection clause
+                null,               // No selection arguments
+                null);                // Default sort order
     }
 
     @Override
@@ -405,7 +286,7 @@ public class BookDetailsActivity extends AppCompatActivity implements LoaderMana
             return;
         }
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in
+            // Find the columns of book attributes that we're interested in
             int titleColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_TITLE);
             int authorColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_AUTHOR);
             int priceColumnIndex = cursor.getColumnIndex(BookContract.BookDatabaseTitles.COLUMN_BOOK_PRICE);

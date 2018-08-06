@@ -35,18 +35,18 @@ public final class BookContract {
 
 
         /**
-         * The content URI to access the pet data in the provider
+         * The content URI to access the book data in the provider
          */
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
-            public static final String TABLE_NAME = "books";
-            public static final String _ID = BaseColumns._ID;
-            public static final String COLUMN_BOOK_TITLE = "TitleBook";
-            public static final String COLUMN_BOOK_AUTHOR = "AuthorBook";
-            public static final String COLUMN_BOOK_PRICE = "Price";
-            public static final String COLUMN_BOOK_QUANTITY = "Quantity";
-            public static final String COLUMN_BOOK_SUPPLIER_NAME = "SupplierName";
-            public static final String COLUMN_BOOK_SUPPLIER_PHONE = "SupplierPhoneNumber";
+        public static final String TABLE_NAME = "books";
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_BOOK_TITLE = "TitleBook";
+        public static final String COLUMN_BOOK_AUTHOR = "AuthorBook";
+        public static final String COLUMN_BOOK_PRICE = "Price";
+        public static final String COLUMN_BOOK_QUANTITY = "Quantity";
+        public static final String COLUMN_BOOK_SUPPLIER_NAME = "SupplierName";
+        public static final String COLUMN_BOOK_SUPPLIER_PHONE = "SupplierPhoneNumber";
 
     }
 }
